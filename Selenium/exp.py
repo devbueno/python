@@ -1,0 +1,3 @@
+import undetected_chromedriver
+
+print(undetected_chromedriver.__path__)

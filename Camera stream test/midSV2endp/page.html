@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Stream</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const socket = new WebSocket('ws://10.1.1.1:8081');
+
+        socket.binaryType = 'arraybuffer';
+
+        socket.onmessage = function(event) {
+            const frameData = event.data;
+
+            // Deserialize the frame data
+            const frame = pickle.loads(frameData);
+
+            // Create an image from the frame data
+            const image = new ImageData(new Uint8ClampedArray(frame.data), frame.width, frame.height);
+
+            // Draw the image on the canvas
+            context.putImageData(image, 0, 0);
+        };
+    </script>
+</body>
+</html>
